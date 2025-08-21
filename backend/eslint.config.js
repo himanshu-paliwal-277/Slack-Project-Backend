@@ -1,7 +1,20 @@
-import js from "@eslint/js";
+import pluginJs from "@eslint/js";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  {
+    languageOptions: {
+      globals: globals.node,
+    },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
-]);
+  pluginJs.configs.recommended,
+];

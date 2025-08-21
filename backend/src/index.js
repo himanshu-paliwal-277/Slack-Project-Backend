@@ -1,11 +1,14 @@
-import express from "express";
-import { PORT } from "./config/serverConfig.js";
+import express from 'express';
+import { StatusCodes } from 'http-status-codes';
+
+import { PORT } from './config/serverConfig.js';
+
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Welcome to the Slack Clone API",
+app.get('/', (req, res) => {
+  res.status(StatusCodes.OK).json({
+    message: 'Welcome to the Slack Clone API'
   });
 });
 
