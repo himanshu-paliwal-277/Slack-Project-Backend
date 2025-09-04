@@ -85,9 +85,9 @@ export const getWorkspaceController = async (req, res) => {
     );
     return res
       .status(StatusCodes.OK)
-      .json(successResponse(response, 'Workspace fetched successfully'));
+      .json(successResponse(response, 'Workspace deleted successfully'));
   } catch (error) {
-    console.log(error);
+    console.log('Get workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -100,12 +100,15 @@ export const getWorkspaceController = async (req, res) => {
 
 export const getWorkspaceByJoinCodeController = async (req, res) => {
   try {
-    const response = await getWorkspaceByJoinCodeService(req.params.joinCode);
+    const response = await getWorkspaceByJoinCodeService(
+      req.params.joinCode,
+      req.user
+    );
     return res
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace fetched successfully'));
   } catch (error) {
-    console.log(error);
+    console.log('Get workspace by joincode controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -127,7 +130,7 @@ export const updateWorkspaceController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace updated successfully'));
   } catch (error) {
-    console.log(error);
+    console.log('update workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -143,7 +146,8 @@ export const addMemberToWorkspaceController = async (req, res) => {
     const response = await addMemberToWorkspaceService(
       req.params.workspaceId,
       req.body.memberId,
-      req.body.role
+      req.body.role || 'member',
+      req.user
     );
     return res
       .status(StatusCodes.OK)
@@ -151,7 +155,7 @@ export const addMemberToWorkspaceController = async (req, res) => {
         successResponse(response, 'Member added to workspace successfully')
       );
   } catch (error) {
-    console.log(error);
+    console.log('add member to workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -166,13 +170,16 @@ export const addChannelToWorkspaceController = async (req, res) => {
   try {
     const response = await addChannelToWorkspaceService(
       req.params.workspaceId,
-      req.body.channelName
+      req.body.channelName,
+      req.user
     );
     return res
       .status(StatusCodes.OK)
-      .json(successResponse(response, 'Channel added to workspace'));
+      .json(
+        successResponse(response, 'Channel added to workspace successfully')
+      );
   } catch (error) {
-    console.log(error);
+    console.log('add channel to workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
