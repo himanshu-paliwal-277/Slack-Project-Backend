@@ -8,14 +8,12 @@ import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  console.log(workspace.members, userId);
   const response = workspace.members.find(
     (member) =>
       (member.memberId.toString() === userId ||
         member.memberId._id.toString() === userId) &&
       member.role === 'admin'
   );
-  console.log(response);
   return response;
 };
 
@@ -82,7 +80,7 @@ export const getWorkspacesUserIsMemberOfService = async (userId) => {
       await workspaceRepository.fetchAllWorkspaceByMemberId(userId);
     return response;
   } catch (error) {
-    console.log('Get workspaces user is member of service error', error);
+    console.error('Get workspaces user is member of service error', error);
     throw error;
   }
 };
@@ -97,7 +95,6 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
         statusCode: StatusCodes.NOT_FOUND
       });
     }
-    console.log(workspace.members, userId);
     const isAllowed = workspace.members.find(
       (member) =>
         member.memberId.toString() === userId && member.role === 'admin'
@@ -116,7 +113,7 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
       statusCode: StatusCodes.UNAUTHORIZED
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 };
@@ -141,7 +138,7 @@ export const getWorkspaceService = async (workspaceId, userId) => {
     }
     return workspace;
   } catch (error) {
-    console.log('Get workspace service error', error);
+    console.error('Get workspace service error', error);
     throw error;
   }
 };
@@ -167,7 +164,7 @@ export const getWorkspaceByJoinCodeService = async (joinCode, userId) => {
     }
     return workspace;
   } catch (error) {
-    console.log('Get workspace by join code service error', error);
+    console.error('Get workspace by join code service error', error);
     throw error;
   }
 };
@@ -200,7 +197,7 @@ export const updateWorkspaceService = async (
     );
     return updatedWorkspace;
   } catch (error) {
-    console.log('update workspace service error', error);
+    console.error('update workspace service error', error);
     throw error;
   }
 };
@@ -251,7 +248,7 @@ export const addMemberToWorkspaceService = async (
     );
     return response;
   } catch (error) {
-    console.log('addMemberToWorkspaceService error', error);
+    console.error('addMemberToWorkspaceService error', error);
     throw error;
   }
 };
@@ -297,7 +294,7 @@ export const addChannelToWorkspaceService = async (
 
     return response;
   } catch (error) {
-    console.log('addChannelToWorkspaceService error', error);
+    console.error('addChannelToWorkspaceService error', error);
     throw error;
   }
 };

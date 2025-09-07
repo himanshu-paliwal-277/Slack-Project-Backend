@@ -27,7 +27,7 @@ export const createWorkspaceController = async (req, res) => {
       .status(StatusCodes.CREATED)
       .json(successResponse(response, 'Workspace created successfully'));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -45,7 +45,7 @@ export const getWorkspacesUserIsMemberOfController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspaces fetched successfully'));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -66,7 +66,7 @@ export const deleteWorkspaceController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace deleted successfully'));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -87,7 +87,7 @@ export const getWorkspaceController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace deleted successfully'));
   } catch (error) {
-    console.log('Get workspace controller error', error);
+    console.error('Get workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -108,7 +108,7 @@ export const getWorkspaceByJoinCodeController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace fetched successfully'));
   } catch (error) {
-    console.log('Get workspace by joincode controller error', error);
+    console.error('Get workspace by joincode controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -130,7 +130,7 @@ export const updateWorkspaceController = async (req, res) => {
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace updated successfully'));
   } catch (error) {
-    console.log('update workspace controller error', error);
+    console.error('update workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -155,7 +155,7 @@ export const addMemberToWorkspaceController = async (req, res) => {
         successResponse(response, 'Member added to workspace successfully')
       );
   } catch (error) {
-    console.log('add member to workspace controller error', error);
+    console.error('add member to workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
@@ -179,7 +179,7 @@ export const addChannelToWorkspaceController = async (req, res) => {
         successResponse(response, 'Channel added to workspace successfully')
       );
   } catch (error) {
-    console.log('add channel to workspace controller error', error);
+    console.error('add channel to workspace controller error', error);
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }

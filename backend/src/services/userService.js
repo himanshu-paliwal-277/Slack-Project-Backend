@@ -11,7 +11,7 @@ export const signUpService = async (data) => {
     const newUser = await userRepository.create(data);
     return newUser;
   } catch (error) {
-    console.log('User service error', error);
+    console.error('User service error', error);
     if (error.name === 'ValidationError') {
       throw new ValidationError(
         {
@@ -60,7 +60,7 @@ export const signInService = async (data) => {
       token: createJWT({ id: user._id, email: user.email })
     };
   } catch (error) {
-    console.log('User service error', error);
+    console.error('User service error', error);
     throw error;
   }
 };

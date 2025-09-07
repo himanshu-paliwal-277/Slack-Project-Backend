@@ -1,4 +1,3 @@
-
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
@@ -36,7 +35,7 @@ export const isAuthenticated = async (req, res, next) => {
     req.user = user.id;
     next();
   } catch (error) {
-    console.log('Auth middleware error', error);
+    console.error('Auth middleware error', error);
     if (error.name === 'JsonWebTokenError') {
       return res.status(StatusCodes.FORBIDDEN).json(
         customErrorResponse({
