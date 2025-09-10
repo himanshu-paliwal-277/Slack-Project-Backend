@@ -7,3 +7,8 @@ export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const MONGODB_URI = process.env.MONGODB_URI;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const JWT_EXPIRY = process.env.JWT_EXPIRY || '1d';
+
+export const EMAIL_HOST = process.env.EMAIL_HOST;
+export const EMAIL_PORT = process.env.EMAIL_PORT;
+export const EMAIL_USER = process.env.EMAIL_USER;
+export const EMAIL_PASS = process.env.EMAIL_PASS;
