@@ -44,6 +44,16 @@ export const isAuthenticated = async (req, res, next) => {
         })
       );
     }
+
+    if (error.name === 'TokenExpiredError') {
+      return res.status(StatusCodes.UNAUTHORIZED).json(
+        customErrorResponse({
+          explanation: 'Auth token expired',
+          message: 'Your session has expired. Please log in again.'
+        })
+      );
+    }
+
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json(internalErrorResponse(error));
