@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 
-import { sendWorkspaceMail } from '../config/mailer.js';
 import channelRepository from '../repositories/channelRepository.js';
 import userRepository from '../repositories/userRepository.js';
 import workspaceRepository from '../repositories/workspaceRepository.js';
@@ -53,8 +52,6 @@ export const createWorkspaceService = async (workspaceData) => {
 
     console.log('workspace data = ', workspaceData.owner);
     console.log('workspace name = ', workspaceData.name);
-
-    await sendWorkspaceMail('hpaliwal364@gmail.com', workspaceData.name);
 
     return updateWorkspace;
   } catch (error) {

@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { sendWorkspaceMail } from '../config/mailer.js';
 import {
   addChannelToWorkspaceService,
   addMemberToWorkspaceService,
@@ -23,8 +22,6 @@ export const createWorkspaceController = async (req, res) => {
       ...req.body,
       owner: req.user
     });
-
-    await sendWorkspaceMail(sendWorkspaceMail)
 
     return res
       .status(StatusCodes.CREATED)
