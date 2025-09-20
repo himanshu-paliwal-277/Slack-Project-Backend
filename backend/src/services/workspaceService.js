@@ -311,34 +311,32 @@ export const addChannelToWorkspaceService = async (
   }
 };
 
-export const getWorkspaceByChannelIdAndCheckIsUserPartOfWorkspaceService = async (
-  channelId,
-  userId
-) => {
-  try {
-    const workspace =
-      await workspaceRepository.getWorkspaceByChannelId(channelId);
-    if (!workspace) {
-      throw new ClientError({
-        explanation: 'Invalid data sent from the client',
-        message: 'Workspace not found',
-        statusCode: StatusCodes.NOT_FOUND
-      });
+export const getWorkspaceByChannelIdAndCheckIsUserPartOfWorkspaceService =
+  async (channelId, userId) => {
+    try {
+      const workspace =
+        await workspaceRepository.getWorkspaceByChannelId(channelId);
+      if (!workspace) {
+        throw new ClientError({
+          explanation: 'Invalid data sent from the client',
+          message: 'Workspace not found',
+          statusCode: StatusCodes.NOT_FOUND
+        });
+      }
+      const isMember = isUserMemberOfWorkspace(workspace, userId);
+      if (!isMember) {
+        throw new ClientError({
+          explanation: 'User is not a member of the workspace',
+          message: 'User is not a member of the workspace',
+          statusCode: StatusCodes.UNAUTHORIZED
+        });
+      }
+      return workspace;
+    } catch (error) {
+      console.error(
+        'getWorkspaceByChannelIdAndCheckIsUserPartOfWorkspace error',
+        error
+      );
+      throw error;
     }
-    const isMember = isUserMemberOfWorkspace(workspace, userId);
-    if (!isMember) {
-      throw new ClientError({
-        explanation: 'User is not a member of the workspace',
-        message: 'User is not a member of the workspace',
-        statusCode: StatusCodes.UNAUTHORIZED
-      });
-    }
-    return workspace;
-  } catch (error) {
-    console.error(
-      'getWorkspaceByChannelIdAndCheckIsUserPartOfWorkspace error',
-      error
-    );
-    throw error;
-  }
-};
+  };
