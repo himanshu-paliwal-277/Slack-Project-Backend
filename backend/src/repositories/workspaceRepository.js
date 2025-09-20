@@ -114,6 +114,12 @@ const workspaceRepository = {
       'members.memberId': memberId
     }).populate('members.memberId', 'username email avatar');
     return workspaces;
+  },
+  getWorkspaceByChannelId: async function (channelId) {
+    const workspace = await Workspace.findOne({
+      channels: channelId
+    }).populate('members.memberId', 'username email avatar');
+    return workspace;
   }
 };
 
