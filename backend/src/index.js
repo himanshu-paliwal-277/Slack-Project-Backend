@@ -6,6 +6,7 @@ import { Server } from 'socket.io';
 import bullServerAdapter from './config/bullBoardConfig.js';
 import connectDB from './config/dbConfig.js';
 import { PORT } from './config/serverConfig.js';
+import messageHandlers from './controllers/messageSocketController.js';
 import apiRouter from './routes/apiRouter.js';
 
 const app = express();
@@ -26,16 +27,17 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected = ', socket.id);
+  // console.log('a user connected = ', socket.id);
 
   // setInterval(() => {
   //   io.emit('message', `'Hello from the server' = ${Math.random()}`);
   // }, 3000);
-  socket.on('messageFromClient', (data) => {
-    console.log('message from client = ', data);
+  // socket.on('messageFromClient', (data) => {
+  //   console.log('message from client = ', data);
 
-    io.emit('new message', data.toUpperCase());
-  });
+  //   io.emit('new message', data.toUpperCase());
+  // });
+  messageHandlers(io, socket);
 });
 
 server.listen(PORT, async () => {
