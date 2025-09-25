@@ -6,9 +6,10 @@ import {
 
 export default function messageHandlers(io, socket) {
   socket.on(NEW_MESSAGE_EVENT, async function createMessageHandler(data, cb) {
-    console.log(data, typeof data);
+    const { roomId } = data;
     const messageResponse = await createMessageService(data);
-    socket.broadcast.emit(NEW_MESSAGE_RECEIVED_EVENT, messageResponse);
+    // socket.broadcast.emit(NEW_MESSAGE_RECEIVED_EVENT, messageResponse);
+    socket.to(roomId).emit(NEW_MESSAGE_RECEIVED_EVENT, messageResponse);
     cb({
       success: true,
       message: 'Successfully created the message',
