@@ -11,23 +11,28 @@ export const signUpService = async (data) => {
     const newUser = await userRepository.create(data);
     return newUser;
   } catch (error) {
-    console.error('User service error', error);
+    console.error('User controller error', error);
+
+    // ✅ Handle schema validation errors (e.g. required, minlength, regex)
     if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map((err) => err.message);
+
+      throw new ValidationError({ error: messages }, 'Validation failed');
+    }
+
+    // ✅ Handle duplicate key errors (unique constraints)
+    if (error?.code === 11000 || error?.cause?.code === 11000) {
+      const keyPattern = error.keyPattern || error.cause?.keyPattern || {};
+      const field = Object.keys(keyPattern)[0] || 'field';
+
       throw new ValidationError(
-        {
-          error: error.errors
-        },
-        error.message
+        { error: [`${field} already exists`] },
+        `${field} already exists`
       );
     }
-    if (error.name === 'MongoServerError' && error.code === 11000) {
-      throw new ValidationError(
-        {
-          error: ['A user with same email or username already exists']
-        },
-        'A user with same email or username already exists'
-      );
-    }
+
+    // ❌ Unknown errors → let global error handler return 500
+    throw error;
   }
 };
 

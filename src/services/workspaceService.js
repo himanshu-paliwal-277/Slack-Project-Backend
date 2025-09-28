@@ -58,23 +58,29 @@ export const createWorkspaceService = async (workspaceData) => {
     return updateWorkspace;
   } catch (error) {
     console.error('Error creating workspace:', error);
+
+    // ✅ Handle validation errors (from Mongoose schema)
     if (error.name === 'ValidationError') {
       throw new ValidationError(
         {
-          error: error.errors
+          error: Object.values(error.errors).map((err) => err.message)
         },
         error.message
       );
     }
 
+    // ✅ Handle duplicate key errors (unique constraints)
     if (error.name === 'MongoServerError' && error.code === 11000) {
+      const field = Object.keys(error.keyPattern || {})[0]; // e.g. "workspaceName"
       throw new ValidationError(
         {
-          error: ['A workspace with same details already exists']
+          error: [`${field} already exists`]
         },
-        'A workspace with same details already exists'
+        `${field} already exists`
       );
     }
+
+    // ✅ Re-throw unhandled errors
     throw error;
   }
 };
