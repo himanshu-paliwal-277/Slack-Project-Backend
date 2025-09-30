@@ -18,7 +18,10 @@ const io = new Server(server);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = ['http://localhost:5173', 'https://myapp.netlify.app'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://slackprojectfrontend.netlify.app'
+];
 
 app.use(
   cors({
