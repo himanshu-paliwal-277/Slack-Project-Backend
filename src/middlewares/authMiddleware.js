@@ -32,6 +32,16 @@ export const isAuthenticated = async (req, res, next) => {
     }
 
     const user = await userRepository.getById(response.id);
+
+    if (!user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json(
+        customErrorResponse({
+          explanation: 'User not found',
+          message: 'User account no longer exists. Please log in again.'
+        })
+      );
+    }
+
     req.user = user.id;
     next();
   } catch (error) {
