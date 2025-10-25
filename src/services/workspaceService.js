@@ -20,9 +20,10 @@ const isUserAdminOfWorkspace = (workspace, userId) => {
 };
 
 export const isUserMemberOfWorkspace = (workspace, userId) => {
-  return workspace.members.find(
-    (member) => member.memberId.toString() === userId
-  );
+  return workspace.members.find((member) => {
+    console.log('member id ', member.memberId.toString());
+    return member.memberId._id.toString() === userId;
+  });
 };
 
 const isChannelAlreadyPartOfWorkspace = (workspace, channelName) => {
@@ -130,7 +131,9 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
 
 export const getWorkspaceService = async (workspaceId, userId) => {
   try {
-    const workspace = await workspaceRepository.getById(workspaceId);
+    console.log('workspaceId =', workspaceId, ' userId =', userId);
+    const workspace =
+      await workspaceRepository.getWorkspaceDetailsById(workspaceId);
     if (!workspace) {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
@@ -138,6 +141,7 @@ export const getWorkspaceService = async (workspaceId, userId) => {
         statusCode: StatusCodes.NOT_FOUND
       });
     }
+    console.log('workspace fetched =', workspace);
     const isMember = isUserMemberOfWorkspace(workspace, userId);
     if (!isMember) {
       throw new ClientError({
@@ -380,7 +384,16 @@ export const joinWorkspaceService = async (workspaceId, joinCode, userId) => {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
         message: 'Invalid join code',
-        statusCode: StatusCodes.UNAUTHORIZED
+        statusCode: StatusCodes.BAD_REQUEST
+      });
+    }
+
+    const isMember = isUserMemberOfWorkspace(workspace, userId);
+    if (isMember) {
+      throw new ClientError({
+        explanation: 'User is already a member of the workspace',
+        message: 'User is already a member of the workspace',
+        statusCode: StatusCodes.BAD_REQUEST
       });
     }
 
