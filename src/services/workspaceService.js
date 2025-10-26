@@ -388,14 +388,14 @@ export const joinWorkspaceService = async (workspaceId, joinCode, userId) => {
       });
     }
 
-    const isMember = isUserMemberOfWorkspace(workspace, userId);
-    if (isMember) {
-      throw new ClientError({
-        explanation: 'User is already a member of the workspace',
-        message: 'User is already a member of the workspace',
-        statusCode: StatusCodes.BAD_REQUEST
-      });
-    }
+    // const isMember = isUserMemberOfWorkspace(workspace, userId);
+    // if (isMember) {
+    //   throw new ClientError({
+    //     explanation: 'User is already a member of the workspace',
+    //     message: 'User is already a member of the workspace',
+    //     statusCode: StatusCodes.BAD_REQUEST
+    //   });
+    // }
 
     const updatedWorkspace = await workspaceRepository.addMemberToWorkspace(
       workspaceId,
