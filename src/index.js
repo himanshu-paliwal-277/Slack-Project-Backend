@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
 
   // setInterval(() => {
   //   io.emit('message', `'Hello from the server' = ${Math.random()}`);
-  // }, 3000);
+  // }, 4000);
   // socket.on('messageFromClient', (data) => {
   //   console.log('message from client = ', data);
 

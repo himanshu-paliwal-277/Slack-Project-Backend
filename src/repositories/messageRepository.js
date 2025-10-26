@@ -8,7 +8,7 @@ const messageRepository = {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .populate('senderId', 'username email avatar');
+      .populate('senderId', 'userName email avatar');
 
     return messages;
   }

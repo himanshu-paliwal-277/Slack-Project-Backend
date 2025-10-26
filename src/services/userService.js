@@ -103,7 +103,7 @@ export const signInService = async (data) => {
     }
 
     return {
-      username: user.username,
+      userName: user.userName,
       avatar: user.avatar,
       email: user.email,
       _id: user._id,

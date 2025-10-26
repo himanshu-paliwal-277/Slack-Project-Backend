@@ -53,7 +53,7 @@ userSchema.pre('save', function saveUser(next) {
     const SALT = bcrypt.genSaltSync(9);
     const hashedPassword = bcrypt.hashSync(user.password, SALT);
     user.password = hashedPassword;
-    user.avatar = `https://robohash.org/${user.username}`;
+    user.avatar = `https://robohash.org/${user.userName}`;
     user.verificationToken = uuidv4().substring(0, 10).toUpperCase();
     user.verificationTokenExpiry = Date.now() + 3600000; // 1 hour
   }

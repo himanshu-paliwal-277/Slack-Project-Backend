@@ -10,7 +10,7 @@ const workspaceRepository = {
   ...crudRepository(Workspace),
   getWorkspaceDetailsById: async function (workspaceId) {
     const workspace = await Workspace.findById(workspaceId)
-      .populate('members.memberId', 'username email avatar')
+      .populate('members.memberId', 'userName email avatar')
       .populate('channels');
 
     return workspace;
@@ -112,13 +112,13 @@ const workspaceRepository = {
   fetchAllWorkspaceByMemberId: async function (memberId) {
     const workspaces = await Workspace.find({
       'members.memberId': memberId
-    }).populate('members.memberId', 'username email avatar');
+    }).populate('members.memberId', 'userName email avatar');
     return workspaces;
   },
   getWorkspaceByChannelId: async function (channelId) {
     const workspace = await Workspace.findOne({
       channels: channelId
-    }).populate('members.memberId', 'username email avatar');
+    }).populate('members.memberId', 'userName email avatar');
     return workspace;
   }
 };
