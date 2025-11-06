@@ -14,7 +14,11 @@ import apiRouter from './routes/apiRouter.js';
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,7 +54,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  // console.log('a user connected = ', socket.id);
+  console.log('a user connected = ', socket.id);
 
   // setInterval(() => {
   //   io.emit('message', `'Hello from the server' = ${Math.random()}`);
