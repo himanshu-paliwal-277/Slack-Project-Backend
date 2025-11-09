@@ -10,19 +10,28 @@ import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  const response = workspace.members.find(
-    (member) =>
-      (member.memberId.toString() === userId ||
-        member.memberId._id.toString() === userId) &&
-      member.role === 'admin'
-  );
+  const response = workspace.members.find((member) => {
+    if (!member.memberId || member.role !== 'admin') {
+      return false;
+    }
+    const memberIdString = member.memberId._id
+      ? member.memberId._id.toString()
+      : member.memberId.toString();
+    return memberIdString === userId;
+  });
   return response;
 };
 
 export const isUserMemberOfWorkspace = (workspace, userId) => {
   return workspace.members.find((member) => {
-    console.log('member id ', member.memberId.toString());
-    return member.memberId._id.toString() === userId;
+    if (!member.memberId) {
+      return false;
+    }
+    const memberIdString = member.memberId._id
+      ? member.memberId._id.toString()
+      : member.memberId.toString();
+    console.log('member id ', memberIdString);
+    return memberIdString === userId;
   });
 };
 
@@ -107,10 +116,15 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
         statusCode: StatusCodes.NOT_FOUND
       });
     }
-    const isAllowed = workspace.members.find(
-      (member) =>
-        member.memberId.toString() === userId && member.role === 'admin'
-    );
+    const isAllowed = workspace.members.find((member) => {
+      if (!member.memberId || member.role !== 'admin') {
+        return false;
+      }
+      const memberIdString = member.memberId._id
+        ? member.memberId._id.toString()
+        : member.memberId.toString();
+      return memberIdString === userId;
+    });
 
     if (isAllowed) {
       await channelRepository.deleteMany(workspace.channels);
