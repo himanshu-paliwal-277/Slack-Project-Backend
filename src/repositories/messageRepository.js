@@ -15,7 +15,7 @@ const messageRepository = {
   getMessageDetails: async (messageId) => {
     const message = await Message.findById(messageId).populate(
       'senderId',
-      'username email avatar'
+      'userName email avatar'
     );
     return message;
   }
