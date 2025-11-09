@@ -13,6 +13,13 @@ const workspaceRepository = {
       .populate('members.memberId', 'userName email avatar')
       .populate('channels');
 
+    if (workspace) {
+      // Filter out members with null/deleted user references
+      workspace.members = workspace.members.filter(
+        (member) => member.memberId !== null
+      );
+    }
+
     return workspace;
   },
   getWorkspaceByName: async function (workspaceName) {
@@ -113,12 +120,28 @@ const workspaceRepository = {
     const workspaces = await Workspace.find({
       'members.memberId': memberId
     }).populate('members.memberId', 'userName email avatar');
+
+    // Filter out members with null/deleted user references from all workspaces
+    workspaces.forEach((workspace) => {
+      workspace.members = workspace.members.filter(
+        (member) => member.memberId !== null
+      );
+    });
+
     return workspaces;
   },
   getWorkspaceByChannelId: async function (channelId) {
     const workspace = await Workspace.findOne({
       channels: channelId
     }).populate('members.memberId', 'userName email avatar');
+
+    if (workspace) {
+      // Filter out members with null/deleted user references
+      workspace.members = workspace.members.filter(
+        (member) => member.memberId !== null
+      );
+    }
+
     return workspace;
   }
 };

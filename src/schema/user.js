@@ -60,6 +60,21 @@ userSchema.pre('save', function saveUser(next) {
   next();
 });
 
+// Middleware to clean up workspace references when a user is deleted
+userSchema.post('findOneAndDelete', async function (doc) {
+  if (doc) {
+    const Workspace = mongoose.model('Workspace');
+
+    // Remove this user from all workspaces
+    await Workspace.updateMany(
+      { 'members.memberId': doc._id },
+      { $pull: { members: { memberId: doc._id } } }
+    );
+
+    console.log(`✓ Removed user ${doc.userName} (${doc._id}) from all workspaces`);
+  }
+});
+
 const User = mongoose.model('User', userSchema);
 
 export default User;
