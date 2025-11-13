@@ -20,15 +20,13 @@ export const startDMController = async (req, res) => {
 
     // Validate required fields
     if (!recipientId || !workspaceId) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({
-            message: 'Recipient ID and Workspace ID are required',
-            explanation: 'Missing required fields',
-            statusCode: StatusCodes.BAD_REQUEST
-          })
-        );
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Recipient ID and Workspace ID are required',
+          explanation: 'Missing required fields',
+          statusCode: StatusCodes.BAD_REQUEST
+        })
+      );
     }
 
     const response = await startDMService(userId, recipientId, workspaceId);
@@ -59,15 +57,13 @@ export const getAllDMsController = async (req, res) => {
     const userId = req.user;
 
     if (!workspaceId) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({
-            message: 'Workspace ID is required',
-            explanation: 'Missing required parameter',
-            statusCode: StatusCodes.BAD_REQUEST
-          })
-        );
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Workspace ID is required',
+          explanation: 'Missing required parameter',
+          statusCode: StatusCodes.BAD_REQUEST
+        })
+      );
     }
 
     const rooms = await getAllDMsService(userId, workspaceId);
@@ -95,15 +91,13 @@ export const getDMByIdController = async (req, res) => {
     const userId = req.user;
 
     if (!roomId) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({
-            message: 'Room ID is required',
-            explanation: 'Missing required parameter',
-            statusCode: StatusCodes.BAD_REQUEST
-          })
-        );
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Room ID is required',
+          explanation: 'Missing required parameter',
+          statusCode: StatusCodes.BAD_REQUEST
+        })
+      );
     }
 
     const response = await getDMByIdService(roomId, userId);
@@ -132,27 +126,23 @@ export const sendDMMessageController = async (req, res) => {
     const userId = req.user;
 
     if (!roomId) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({
-            message: 'Room ID is required',
-            explanation: 'Missing required parameter',
-            statusCode: StatusCodes.BAD_REQUEST
-          })
-        );
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Room ID is required',
+          explanation: 'Missing required parameter',
+          statusCode: StatusCodes.BAD_REQUEST
+        })
+      );
     }
 
     if (!body) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({
-            message: 'Message body is required',
-            explanation: 'Missing required field',
-            statusCode: StatusCodes.BAD_REQUEST
-          })
-        );
+      return res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Message body is required',
+          explanation: 'Missing required field',
+          statusCode: StatusCodes.BAD_REQUEST
+        })
+      );
     }
 
     const message = await sendDMMessageService(roomId, userId, body, image);

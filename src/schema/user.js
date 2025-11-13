@@ -71,7 +71,9 @@ userSchema.post('findOneAndDelete', async function (doc) {
       { $pull: { members: { memberId: doc._id } } }
     );
 
-    console.log(`✓ Removed user ${doc.userName} (${doc._id}) from all workspaces`);
+    console.log(
+      `✓ Removed user ${doc.userName} (${doc._id}) from all workspaces`
+    );
   }
 });
 

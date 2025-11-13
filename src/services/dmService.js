@@ -71,7 +71,9 @@ export const startDMService = async (userId, recipientId, workspaceId) => {
     );
 
     // Fetch the room with populated details
-    const roomWithDetails = await roomRepository.getRoomWithDetails(newRoom._id);
+    const roomWithDetails = await roomRepository.getRoomWithDetails(
+      newRoom._id
+    );
 
     return {
       room: roomWithDetails,
