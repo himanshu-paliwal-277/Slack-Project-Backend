@@ -46,6 +46,7 @@ export const getChannelByIdService = async (channelId, userId) => {
       messages,
       _id: channel._id,
       name: channel.name,
+      members: channel.members,
       createdAt: channel.createdAt,
       updatedAt: channel.updatedAt,
       workspaceId: channel.workspaceId

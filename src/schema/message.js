@@ -11,8 +11,11 @@ const messageSchema = new mongoose.Schema(
     },
     channelId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Channel',
-      required: [true, 'Channel ID is required']
+      ref: 'Channel'
+    },
+    roomId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Room'
     },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +32,17 @@ const messageSchema = new mongoose.Schema(
     timestamps: true
   }
 );
+
+// Custom validation: Either channelId or roomId must be present
+messageSchema.pre('validate', function (next) {
+  if (!this.channelId && !this.roomId) {
+    next(new Error('Either channelId or roomId must be provided'));
+  } else if (this.channelId && this.roomId) {
+    next(new Error('Cannot have both channelId and roomId'));
+  } else {
+    next();
+  }
+});
 
 const Message = mongoose.model('Message', messageSchema);
 

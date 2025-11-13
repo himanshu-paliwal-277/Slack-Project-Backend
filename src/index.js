@@ -25,7 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://slackprojectfrontend.netlify.app'
+  'https://slackprojectfrontend.netlify.app',
+  'https://p261s7x2-5173.inc1.devtunnels.ms'
 ];
 
 app.use(

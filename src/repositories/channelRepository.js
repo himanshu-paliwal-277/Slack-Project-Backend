@@ -8,13 +8,15 @@ const channelRepository = {
     return channel;
   },
   getChannelWithWorkspaceAndMembersDetails: async function (channelId) {
-    const channel = await Channel.findById(channelId).populate({
-      path: 'workspaceId',
-      populate: {
-        path: 'members.memberId',
-        select: 'userName email avatar'
-      }
-    });
+    const channel = await Channel.findById(channelId)
+      .populate('members', 'userName email avatar')
+      .populate({
+        path: 'workspaceId',
+        populate: {
+          path: 'members.memberId',
+          select: 'userName email avatar'
+        }
+      });
     return channel;
   }
 };
