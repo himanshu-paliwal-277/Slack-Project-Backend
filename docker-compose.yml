@@ -1,0 +1,33 @@
+services:
+  # ── Redis ─────────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: slack-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  # ── Backend ──────────────────────────────────────────────────────────────────
+  backend:
+    image: himanshu277/slack-project-backend
+    # build:
+    #   context: .
+    container_name: slack-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    depends_on:
+      - redis
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - PORT=4000
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRY=${JWT_EXPIRY}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - APP_LINK=${APP_LINK}
+      - ENABLE_EMAIL_VERIFICATION=${ENABLE_EMAIL_VERIFICATION}
