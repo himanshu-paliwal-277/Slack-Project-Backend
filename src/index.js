@@ -23,24 +23,7 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://slackprojectfrontend.netlify.app',
-  'https://p261s7x2-5173.inc1.devtunnels.ms'
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true
-  })
-);
+app.use(cors());
 
 app.use('/api', apiRouter);
 
