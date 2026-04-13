@@ -33,7 +33,7 @@ app.use('/ui', bullServerAdapter.getRouter());
 
 app.get('/', (req, res) => {
   res.status(StatusCodes.OK).json({
-    message: 'Welcome to the Slack Clone API - CI/CD pipeline is working fine! 🚀'
+    message: 'Welcome to the Slack Clone API - CI/CD pipeline is working fine! v2 🚀'
   });
 });
 
