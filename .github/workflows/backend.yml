@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/devops/projects/Slack-Project/Slack-Project-Backend
+            cd ~/devops/projects/slack-Project-Backend
             docker compose pull backend
             docker compose up -d backend
             docker image prune -f
